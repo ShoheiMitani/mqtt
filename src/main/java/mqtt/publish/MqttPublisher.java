@@ -16,17 +16,15 @@ public class MqttPublisher {
     public static void main(String[] args) {
 
         //Publish設定
-        final String broker       = ConfigManager.getBrokerConfig();
-        final String topic        = String.valueOf(ConfigManager.getPubSubConfig("publish", "topic"));
-        final int qos             = (int) ConfigManager.getPubSubConfig("publish", "qos");
-        final String clientId     = String.valueOf(ConfigManager.getPubSubConfig("publish", "clientId"));
+        final String broker = ConfigManager.getBrokerConfig();
+        final String topic = String.valueOf(ConfigManager.getPubSubConfig("publish", "topic"));
+        final int qos = (int) ConfigManager.getPubSubConfig("publish", "qos");
+        final String clientId = String.valueOf(ConfigManager.getPubSubConfig("publish", "clientId"));
         //Publishするメッセージ内容
-        String content      = args[0];
-
-        MemoryPersistence persistence = new MemoryPersistence();
+        String content = args[0];
 
         try {
-            MqttClient mqttClient = new MqttClient(broker, clientId, persistence);
+            MqttClient mqttClient = new MqttClient(broker, clientId,  new MemoryPersistence());
             MqttConnectOptions connOpts = new MqttConnectOptions();
             connOpts.setCleanSession(false);
 

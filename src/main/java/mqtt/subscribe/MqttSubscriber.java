@@ -38,7 +38,7 @@ public class MqttSubscriber  implements MqttCallback {
     }
 
     /**
-     * メッセージを受信したときに呼ばれるCallback。SkyOnDemandではスクリプトにメッセージを渡す処理を行う。
+     * メッセージを受信したときに呼ばれる。
      */
     @Override
     public void messageArrived(String topic, MqttMessage message) throws MqttException {
@@ -68,24 +68,24 @@ public class MqttSubscriber  implements MqttCallback {
      * @throws InterruptedException 
      */
     public void subscribe() throws MqttException, InterruptedException {
-        
+
         //Subscribe設定
-        final String broker       = ConfigManager.getBrokerConfig();
-        final String topic        = String.valueOf(ConfigManager.getPubSubConfig("subscribe", "topic"));
-        final int qos             = (int) ConfigManager.getPubSubConfig("subscribe", "qos");
-        final String clientId     = String.valueOf(ConfigManager.getPubSubConfig("subscribe", "clientId"));
+        final String broker = ConfigManager.getBrokerConfig();
+        final String topic = String.valueOf(ConfigManager.getPubSubConfig("subscribe", "topic"));
+        final int qos = (int) ConfigManager.getPubSubConfig("subscribe", "qos");
+        final String clientId = String.valueOf(ConfigManager.getPubSubConfig("subscribe", "clientId"));
 
         MqttClient client = new MqttClient(broker, clientId, new MemoryPersistence());
         client.setCallback(this);
         MqttConnectOptions connOpts = new MqttConnectOptions();
         connOpts.setCleanSession(false);
-         
+
         L.info("Connecting to broker: {}", broker);
         client.connect(connOpts);
-        
+
         L.info("Connected and subscribing message: qos -> {}, topic -> {}", qos, topic);
         client.subscribe(topic, qos);
-        
+
         L.info("Please press any key if you would disconnect to broker.");
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try{
