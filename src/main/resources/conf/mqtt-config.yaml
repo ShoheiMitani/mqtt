@@ -1,0 +1,11 @@
+broker: "tcp://localhost:1883"
+
+publish:
+  topic: "top/second/third"
+  qos: 1
+  clientId: "Publisher01"
+
+subscribe:
+  topic: "top/second/third"
+  qos: 1
+  clientId: "Subscriber01"

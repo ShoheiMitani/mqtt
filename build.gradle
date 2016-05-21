@@ -1,0 +1,33 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.slf4j:slf4j-api:1.7.21'
+    compile 'org.slf4j:slf4j-simple:1.7.21'
+    compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.0.2'
+    compile 'org.yaml:snakeyaml:1.17'
+    
+    testCompile 'junit:junit:4.12'
+}
+
+task initDirs {
+   sourceSets*.resources.srcDirs*.each { it.mkdirs() }
+}
+
+//mqtt subscribe task
+task subscribe(type: JavaExec) {
+    standardInput = System.in;
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'mqtt.subscribe.MqttSubscriber'
+
+}
+
+task publish(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'mqtt.publish.MqttPublisher'
+    args 'Message from Mqtt Publish Sample'
+}
